@@ -2,7 +2,7 @@ package org.qalegend.utilities;
 
 import org.openqa.selenium.WebElement;
 
-public class WeElementUtilty {
+public class WebElementUtilty {
     public static boolean isElementSelected(WebElement element){
         boolean status =element.isSelected();
         return status;
