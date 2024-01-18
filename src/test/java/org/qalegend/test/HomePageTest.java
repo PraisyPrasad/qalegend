@@ -17,7 +17,7 @@ import java.util.Date;
 import static org.qalegend.utilities.ExcelUtility.readData;
 
 public class HomePageTest extends Base {
-    @Test
+    @Test(groups = "Sanity")
     public void verifyHomePageTitle() {
         LoginPage login = new LoginPage(driver);
         ArrayList<String> data = ExcelUtility.readData(Constants.TEST_DATA_EXCEL_PATH, Constants.HOME_PAGE);
@@ -31,7 +31,7 @@ public class HomePageTest extends Base {
         Assert.assertEquals(actualHomePageTitle, expectedHomePageTitle, Messages.TITLE_MISMATCH);
     }
 
-    @Test
+    @Test(groups = "Regression")
     public void verifyUserLoginDate() {
         LoginPage login = new LoginPage(driver);
         ArrayList<String> data = readData(Constants.TEST_DATA_EXCEL_PATH, Constants.LOGIN_PAGE);
@@ -40,10 +40,9 @@ public class HomePageTest extends Base {
         String password = data.get(3);
         login.enterPassWord(password);
         HomePage home = login.clickOnLoginButtonElement();
-        String actualLoginDate = home.getLoginDate();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Date currentDate = new Date();
-        String expectedLoginDate = dateFormat.format(currentDate);
-        Assert.assertEquals(actualLoginDate, expectedLoginDate, Messages.LOGIN_DATE_FAILED);
+        login.clickOnEndTourButton();
+        String actualLoginDate= home.getLoginDate();
+        String expectedLoginDate=home.getCurrentDate();
+        Assert.assertEquals(actualLoginDate,expectedLoginDate,Messages.LOGIN_DATE_VERIFICATION_FAILED);
     }
 }

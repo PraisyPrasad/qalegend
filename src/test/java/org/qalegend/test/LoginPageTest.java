@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import static org.qalegend.utilities.ExcelUtility.readData;
 
 public class LoginPageTest extends Base {
-    @Test
+    @Test(groups = "Sanity")
     public void verifyLoginPageTitle() {
         LoginPage login = new LoginPage(driver);
         String actualPageTitle = login.getPageTitle();
@@ -25,7 +25,7 @@ public class LoginPageTest extends Base {
         Assert.assertEquals(actualPageTitle, expectedPageTitle, Messages.TITLE_MISMATCH);
     }
 
-    @Test
+    @Test(groups = "Smoke")
     public void verifyUserLoginWithValidCredentials() {
         LoginPage login = new LoginPage(driver);
         ArrayList<String> data = readData(Constants.TEST_DATA_EXCEL_PATH, Constants.LOGIN_PAGE);
@@ -34,11 +34,12 @@ public class LoginPageTest extends Base {
         String password = data.get(3);
         login.enterPassWord(password);
         HomePage home = login.clickOnLoginButtonElement();
+        login.clickOnEndTourButton();
         String actualLoggedAccount = home.getUserLoggedAccount();
         String expectedLoggedAccount = data.get(7);
         Assert.assertEquals(actualLoggedAccount, expectedLoggedAccount, Messages.LOGIN_FAILED);
     }
-    @Test(dataProvider = "verifyInvalidLoginCredentials", dataProviderClass = DataProviders.class)
+    @Test(groups = "Smoke",dataProvider = "verifyInvalidLoginCredentials", dataProviderClass = DataProviders.class)
     public void verifyErrorMessageWhileLoginWithInvalidCredentials(String userName, String passWord) {
         LoginPage login = new LoginPage(driver);
         login.enterUserName(userName);
