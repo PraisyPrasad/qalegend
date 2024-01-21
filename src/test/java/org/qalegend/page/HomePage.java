@@ -30,6 +30,9 @@ public class HomePage {
     @FindBy(xpath="//h1[contains(text(), 'Welcome Praisy')]")
     WebElement registeredUserNameText;
 
+    @FindBy(xpath="//a[@class='dropdown-toggle']//span[text()='Shifana S']")
+    WebElement newlyAddedUsersUserName;
+
     public String getTitle() {
         return driver.getTitle();
     }
@@ -68,5 +71,8 @@ public class HomePage {
     }
     public String getTextFromLoggedUserName() {
         return WebElementUtilty.getTextFromElement(registeredUserNameText);
+    }
+    public String getTextNewlyAddedUserName() {
+        return WebElementUtilty.getTextFromElement(newlyAddedUsersUserName);
     }
 }

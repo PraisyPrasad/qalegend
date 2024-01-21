@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.qalegend.utilities.WaitUtility;
 import org.qalegend.utilities.WebElementUtilty;
 
 public class AddUsersPage {
@@ -61,9 +62,14 @@ public class AddUsersPage {
     public void enterconfirmPassWord(String confirmPassword) {
         WebElementUtilty.enterValue(confirmPassWordField, confirmPassword);
     }
-    public UserManagementPage clickOnSaveButton() {
+   /* public UserManagementPage clickOnSaveButton() {
         WebElementUtilty.clickOnElement(saveButtonField);
-        return new UserManagementPage(driver);
+        return new UserManagementPage(driver);*/
+   public UserPage clickOnSaveButton() {
+       WebElementUtilty.clickOnElement(saveButtonField);
+       WaitUtility.pageLoadWait(driver,10);
+       driver.navigate().refresh();
+       return new UserPage(driver);
     }
 }
 

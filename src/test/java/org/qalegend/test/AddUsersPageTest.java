@@ -24,6 +24,8 @@ public class AddUsersPageTest extends Base {
         HomePage home = login.clickOnEndTourButton();
         home.clickOnUserManagement();
         UserPage userPage = home.clickOnUsersOption();
+        UserManagementPage usermanagement=home.clickOnUserManagement();
+        UserPage usePage =usermanagement.clickOnUsersOption();
         AddUsersPage addPage = userPage.clickOnAddButton();
         String actualUserPageTitle = addPage.getTitle();
         ArrayList<String> userPageData = ExcelUtility.readData(Constants.TEST_DATA_EXCEL_PATH, Constants.ADD_USER_PAGE);
@@ -58,17 +60,47 @@ public class AddUsersPageTest extends Base {
     }
 
     @Test(groups = "Smoke")
-    public void verifyUserLoginNewlyAddUser() {
+    public void verifyUserLoginWithNewlyAddedUser() {
         LoginPage login = new LoginPage(driver);
-        ArrayList<String> data = ExcelUtility.readData(Constants.TEST_DATA_EXCEL_PATH, Constants.ADD_USER_PAGE);
-        String loginUsername = data.get(2);
+       /* ArrayList<String> data = ExcelUtility.readData(Constants.TEST_DATA_EXCEL_PATH, Constants.ADD_USER_PAGE);
+        String loginUsername = data.get(2);*/
+        ArrayList<String> data = ExcelUtility.readData(Constants.TEST_DATA_EXCEL_PATH, Constants.LOGIN_PAGE);
+        String loginUsername = data.get(1);
         login.enterUserName(loginUsername);
-        String loginPassword = data.get(3);
+      /*  String loginPassword = data.get(5);*/
+        String loginPassword = data.get(2);
         login.enterPassWord(loginPassword);
         login.clickOnLoginButtonElement();
-        HomePage home = login.clickOnEndTourButton();
-        String actualRegisteredUserPageNameTest = home.getTextFromLoggedUserName();
-        String expectedRegisteredUserPageNameTest = "Welcome " + data.get(5) + ",";
-        Assert.assertEquals(actualRegisteredUserPageNameTest,expectedRegisteredUserPageNameTest,Messages.USER_MANAGEMENT_OPTIONS_NOT_VISIBLE);
+        HomePage home=login.clickOnEndTourButton();
+       /* String actualRegisteredUserPageNameText=home.getTextFromLoggedUserName();
+        String expectedRegisteredUserPageNameText="Welcome " + data.get(2)+ "," ;
+        Assert.assertEquals(actualRegisteredUserPageNameText,expectedRegisteredUserPageNameText,Messages.NEW_USER_ADDED_FAILED);*/
+        UserManagementPage userManagement=home.clickOnUserManagement();
+        UserPage userPage = userManagement.clickOnUsersOption();
+        AddUsersPage adduser = userPage.clickOnAddButton();
+        ArrayList<String> userDatas=ExcelUtility.readData(Constants.TEST_DATA_EXCEL_PATH,Constants.ADD_USER_PAGE);
+        String firstName=userDatas.get(2);
+        adduser.enterFirstName(firstName);
+        String lastName=userDatas.get(3);
+        adduser.enterLastName(lastName);
+        String emailID=userDatas.get(4);
+        adduser.enterEmailId(emailID);
+        String userName=userDatas.get(2);
+        adduser.enterUserName(userName);
+        String passWord=userDatas.get(5);
+        adduser.enterPassWord(passWord);
+        String confirmPassWord=userDatas.get(5);
+        adduser.enterconfirmPassWord(confirmPassWord);
+        UserPage usersPage=adduser.clickOnSaveButton();
+        usersPage.clickOnUsersLoggedUserName();
+        LoginPage page=usersPage.clickOnSignOutButton();
+        String newUserNameToLogin=userDatas.get(2);
+        login.enterUserName(newUserNameToLogin);
+        String newPasswordToLogin=userDatas.get(5);
+        login.enterPassWord(newPasswordToLogin);
+        HomePage homePage=login.clickOnLoginButtonElement();
+        String actualTextOfAddedUser=homePage.getTextNewlyAddedUserName();
+        String expectedTextOfAddedUser=firstName+" " +lastName;
+        Assert.assertEquals(actualTextOfAddedUser,expectedTextOfAddedUser,Messages.NEW_USER_ADDED_FAILED);
     }
 }
