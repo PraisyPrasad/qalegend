@@ -57,6 +57,11 @@ public class AddUsersPageTest extends Base {
         adduser.enterPassWord(password);
         adduser.enterconfirmPassWord(password);
         adduser.clickOnSaveButton();
+        UserPage users=adduser.clickOnSaveButton();
+        users.enterTextOnSearchField(emailID);
+        String actualLoggedEmailID=users.getTextFromLoggedUsersMailID();
+        String expectedLoggedEmailID=emailID;
+        Assert.assertEquals(actualLoggedEmailID,expectedLoggedEmailID,Messages.NEW_USER_ADDED_FAILED);
     }
 
     @Test(groups = "Smoke")
